@@ -8,6 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 class RiderLoginScreen extends StatefulWidget {
   static const routeName = '/RiderLogin';
 
+  final globalKey = GlobalKey<ScaffoldState>();
+
   @override
   _RiderLoginScreenState createState() => _RiderLoginScreenState();
 }
@@ -17,11 +19,12 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
   final myController1 = TextEditingController(); //password
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googlSignIn = new GoogleSignIn();
+
   Future<User> _signIn(BuildContext context) async {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text('Sign in'),
+    Scaffold(
+        appBar: AppBar(
+      title: Text('SnackBar Playground'),
     ));
-    GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     final GoogleSignInAccount googleUser = await _googlSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
@@ -190,6 +193,7 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
                           height: 40.0,
                           child: Align(
                             alignment: Alignment.center,
+                            // ignore: deprecated_member_use
                             child: RaisedButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius:
