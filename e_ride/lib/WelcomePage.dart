@@ -70,7 +70,6 @@ class Welcomescreen extends StatelessWidget {
                           color: Colors.white),
                     ),
                   ),
-                  // creating the signup button
                   SizedBox(height: 20),
                   MaterialButton(
                     minWidth: double.infinity,
@@ -82,7 +81,6 @@ class Welcomescreen extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => RiderRegisterScreen()));
                     },
-                    // color: Color(0xff0095FF),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)),
                     child: Text(

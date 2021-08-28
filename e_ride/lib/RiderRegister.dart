@@ -177,12 +177,6 @@ class _RiderRegisterScreenState extends State<RiderRegisterScreen> {
   }
 
   void _togglePasswordView() {
-    // if (isHiddenPassword == true) {
-    //   isHiddenPassword = false;
-    // } else {
-    //   isHiddenPassword = true;
-    // }
-    // isHiddenPassword = !isHiddenPassword;
     setState(() {
       ishiddenPassword = !ishiddenPassword;
     });

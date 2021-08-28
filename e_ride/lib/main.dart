@@ -12,9 +12,6 @@ import 'package:e_ride/PhoneVerification.dart';
 import 'package:e_ride/HomePage.dart';
 import 'package:e_ride/Profile.dart';
 
-// Future main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

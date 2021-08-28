@@ -23,7 +23,7 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
   Future<User> _signIn(BuildContext context) async {
     Scaffold(
         appBar: AppBar(
-      title: Text('SnackBar Playground'),
+      title: Text('Sign in Successful'),
     ));
 
     final GoogleSignInAccount googleUser = await _googlSignIn.signIn();
@@ -253,12 +253,6 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
   }
 
   void _togglePasswordView() {
-    // if (isHiddenPassword == true) {
-    //   isHiddenPassword = false;
-    // } else {
-    //   isHiddenPassword = true;
-    // }
-    // isHiddenPassword = !isHiddenPassword;
     setState(() {
       isHiddenPassword = !isHiddenPassword;
     });
