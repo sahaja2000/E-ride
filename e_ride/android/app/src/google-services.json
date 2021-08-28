@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "367182993445",
+    "project_id": "eride-6be7a",
+    "storage_bucket": "eride-6be7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367182993445:android:434217646dd314eb5b47cc",
+        "android_client_info": {
+          "package_name": "com.example.e_ride"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367182993445-8rc6lg3p8m5c5u86arno28pc1d14482u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.e_ride",
+            "certificate_hash": "69f944511db93d5e749f24c99e844be3c21225f8"
+          }
+        },
+        {
+          "client_id": "367182993445-4mo7q78r25aqttuo0rqoq9agr91rcv10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnBuEjmHNxQkYb1XUqcE41YqhjKAH6kAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "367182993445-4mo7q78r25aqttuo0rqoq9agr91rcv10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

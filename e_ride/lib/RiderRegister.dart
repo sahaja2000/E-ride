@@ -12,6 +12,16 @@ class _RiderRegisterScreenState extends State<RiderRegisterScreen> {
   final myController1 = TextEditingController();
   final myController2 = TextEditingController(); //password
   @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+    myController1.dispose();
+    myController2.dispose();
+    super.dispose();
+  }
+
+  bool ishiddenPassword = true;
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
         backgroundColor: Colors.teal[200],
@@ -46,6 +56,7 @@ class _RiderRegisterScreenState extends State<RiderRegisterScreen> {
                         controller: myController,
                         decoration: InputDecoration(
                             labelText: 'Full Name:',
+                            prefixIcon: Icon(Icons.person),
                             labelStyle: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.bold,
@@ -58,19 +69,27 @@ class _RiderRegisterScreenState extends State<RiderRegisterScreen> {
                         controller: myController1,
                         decoration: InputDecoration(
                             labelText: 'Mobile Number:',
+                            prefixIcon: Icon(Icons.phone_android),
                             labelStyle: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white54),
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.green))),
-                        obscureText: true,
                       ),
                       SizedBox(height: 10.0),
                       TextField(
+                        obscureText: ishiddenPassword,
                         controller: myController2,
                         decoration: InputDecoration(
                             labelText: 'Password:',
+                            prefixIcon: Icon(Icons.security),
+                            suffixIcon: InkWell(
+                              onTap: _togglePasswordView,
+                              child: Icon(
+                                Icons.visibility,
+                              ),
+                            ),
                             labelStyle: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.bold,
@@ -155,5 +174,17 @@ class _RiderRegisterScreenState extends State<RiderRegisterScreen> {
                     ],
                   )),
             ]));
+  }
+
+  void _togglePasswordView() {
+    // if (isHiddenPassword == true) {
+    //   isHiddenPassword = false;
+    // } else {
+    //   isHiddenPassword = true;
+    // }
+    // isHiddenPassword = !isHiddenPassword;
+    setState(() {
+      ishiddenPassword = !ishiddenPassword;
+    });
   }
 }

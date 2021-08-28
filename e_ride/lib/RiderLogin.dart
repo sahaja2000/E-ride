@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:e_ride/HomePage.dart';
+import 'package:e_ride/Profile.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class RiderLoginScreen extends StatefulWidget {
   static const routeName = '/RiderLogin';
@@ -11,6 +15,45 @@ class RiderLoginScreen extends StatefulWidget {
 class _RiderLoginScreenState extends State<RiderLoginScreen> {
   final myController = TextEditingController(); //email
   final myController1 = TextEditingController(); //password
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn _googlSignIn = new GoogleSignIn();
+  Future<User> _signIn(BuildContext context) async {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+      content: new Text('Sign in'),
+    ));
+    GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+    final GoogleSignInAccount googleUser = await _googlSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    User userDetails =
+        (await _firebaseAuth.signInWithCredential(credential)).user;
+    ProviderDetails providerInfo = new ProviderDetails(userDetails.uid);
+
+    List<ProviderDetails> providerData = new List<ProviderDetails>();
+    providerData.add(providerInfo);
+
+    UserDetails details = new UserDetails(
+      userDetails.uid,
+      userDetails.displayName,
+      userDetails.photoURL,
+      userDetails.email,
+      providerData,
+    );
+    Navigator.push(
+      context,
+      new MaterialPageRoute(
+        builder: (context) => new ProfilePage(detailsUser: details),
+      ),
+    );
+    return userDetails;
+  }
 
   @override
   void dispose() {
@@ -20,6 +63,7 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
     super.dispose();
   }
 
+  bool isHiddenPassword = true;
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -51,6 +95,7 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
                         controller: myController,
                         decoration: InputDecoration(
                             labelText: 'Mobile Number:',
+                            prefixIcon: Icon(Icons.phone_android),
                             labelStyle: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.bold,
@@ -60,16 +105,23 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
                       ),
                       SizedBox(height: 20.0),
                       TextField(
+                        obscureText: isHiddenPassword,
                         controller: myController1,
                         decoration: InputDecoration(
                             labelText: 'Password:',
+                            prefixIcon: Icon(Icons.security),
+                            suffixIcon: InkWell(
+                              onTap: _togglePasswordView,
+                              child: Icon(
+                                Icons.visibility,
+                              ),
+                            ),
                             labelStyle: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white54),
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.green))),
-                        obscureText: true,
                       ),
                       SizedBox(height: 5.0),
                       Container(
@@ -133,37 +185,37 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
                         ),
                       ),
                       SizedBox(height: 20.0),
+                      // SizedBox(height: 10.0),
                       Container(
-                        height: 40.0,
-                        color: Colors.transparent,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.black,
-                                  style: BorderStyle.solid,
-                                  width: 1.0),
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(20.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Center(
-                                child: Image(
-                                    image: AssetImage(
-                                        'assets/image/google-logo.png')),
-                              ),
-                              SizedBox(width: 4.0),
-                              Center(
-                                child: Text('Continue with google',
+                          height: 40.0,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(20.0)),
+                              color: Color(0xffffffff),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Center(
+                                    child: Image(
+                                        image: AssetImage(
+                                            'assets/image/google-logo.png')),
+                                  ),
+                                  SizedBox(width: 4.0),
+                                  Text(
+                                    'Continue with google',
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Montserrat')),
+                                        color: Colors.black, fontSize: 18.0),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                      )
+                              onPressed: () => _signIn(context)
+                                  .then((User user) => print(user))
+                                  .catchError((e) => print(e)),
+                            ),
+                          )),
                     ],
                   )),
               SizedBox(height: 15.0),
@@ -195,4 +247,32 @@ class _RiderLoginScreenState extends State<RiderLoginScreen> {
           ),
         ));
   }
+
+  void _togglePasswordView() {
+    // if (isHiddenPassword == true) {
+    //   isHiddenPassword = false;
+    // } else {
+    //   isHiddenPassword = true;
+    // }
+    // isHiddenPassword = !isHiddenPassword;
+    setState(() {
+      isHiddenPassword = !isHiddenPassword;
+    });
+  }
+}
+
+class UserDetails {
+  final String providerDetails;
+  final String userName;
+  final String photoUrl;
+  final String userEmail;
+  final List<ProviderDetails> providerData;
+
+  UserDetails(this.providerDetails, this.userName, this.photoUrl,
+      this.userEmail, this.providerData);
+}
+
+class ProviderDetails {
+  ProviderDetails(this.providerDetails);
+  final String providerDetails;
 }

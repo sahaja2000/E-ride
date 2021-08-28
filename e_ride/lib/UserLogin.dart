@@ -51,6 +51,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                         controller: myController,
                         decoration: InputDecoration(
                             labelText: 'Full Name:',
+                            prefixIcon: Icon(Icons.person),
                             labelStyle: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.bold,
@@ -63,13 +64,13 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                         controller: myController1,
                         decoration: InputDecoration(
                             labelText: 'Mobile Number:',
+                            prefixIcon: Icon(Icons.phone_android),
                             labelStyle: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white54),
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.green))),
-                        obscureText: true,
                       ),
                       SizedBox(height: 40.0),
                       Container(
